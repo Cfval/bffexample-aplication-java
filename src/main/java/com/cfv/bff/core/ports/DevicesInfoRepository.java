@@ -8,6 +8,5 @@ import java.util.Optional;
 public interface DevicesInfoRepository {
     List<DevicesInfo> findAll();
     Optional<DevicesInfo> findById(Long id);
-    DevicesInfo save(DevicesInfo device);            // guarda uno
-    List<DevicesInfo> saveAll(List<DevicesInfo> devices); // guarda varios
+    DevicesInfo save(DevicesInfo device);    // guarda uno
 }

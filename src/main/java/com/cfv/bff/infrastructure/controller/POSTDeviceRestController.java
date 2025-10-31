@@ -2,6 +2,7 @@ package com.cfv.bff.infrastructure.controller;
 
 import com.cfv.bff.application.POSTDeviceUseCase;
 import com.cfv.bff.application.dto.DevicesInfoDto;
+import com.cfv.bff.infrastructure.exceptions.ErrorSavingDeviceException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -23,9 +24,13 @@ public class POSTDeviceRestController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class)))
     })
-    @PostMapping("/alldevices")
+    @PostMapping("/adddevices")
     public ResponseEntity<DevicesInfoDto> createDevice(@RequestBody DevicesInfoDto deviceDto) {
-        DevicesInfoDto savedDevice = useCase.invoke(deviceDto);
-        return ResponseEntity.status(201).body(savedDevice);
+        try {
+            DevicesInfoDto savedDevice = useCase.invoke(deviceDto);
+            return ResponseEntity.status(201).body(savedDevice);
+        } catch (Exception e) {
+            throw new ErrorSavingDeviceException("Error saving device: " + e.getMessage());
+        }
     }
 }
