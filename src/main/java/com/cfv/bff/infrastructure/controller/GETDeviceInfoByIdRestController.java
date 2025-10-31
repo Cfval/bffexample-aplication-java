@@ -5,6 +5,7 @@ import com.cfv.bff.application.dto.DevicesInfoDto;
 import com.cfv.bff.application.mappers.DevicesInfoDtoMapper;
 import com.cfv.bff.application.model.DeviceInfoByIdUseCaseResponse;
 import com.cfv.bff.infrastructure.controller.dto.DeviceInfoByIdResponse;
+import com.cfv.bff.infrastructure.exceptions.DeviceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -40,7 +41,7 @@ public class GETDeviceInfoByIdRestController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            throw new DeviceNotFoundException("Device not found with ID: " + id);
         }
     }
 }
